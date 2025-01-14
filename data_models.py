@@ -11,7 +11,10 @@ class Author(db.Model):
     author_birth_date = db.Column(db.Date, nullable=True)
     author_date_of_death = db.Column(db.Date, nullable=True)
     # Relationship
-    book = db.relationship('Book', backref='authors')
+    books = db.relationship('Book', backref='author', lazy=True)
+
+    def __str__(self):
+        return  f"Author: {self.author_name} with id : {self.author_id} has been successfully added to the database"
 
     def __repr__(self):
         return (f"Author (id = {self.author_id}, name = {self.author_name}, "
@@ -28,7 +31,7 @@ class Book(db.Model):
     # Foreign Key to Author
     author_id = db.Column(db.Integer, db.ForeignKey('authors.author_id'), nullable=False)
     # Relationship
-    author = db.relationship('Author', backref='books')
+    # author = db.relationship('Author', backref='books')
 
     def __repr__(self):
         return (f"Book (id = {self.book_id}, title = {self.book_title}, "
