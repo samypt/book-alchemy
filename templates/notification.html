@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>New Author</title>
+    <title>New {{ obj_type }}</title>
 </head>
 <body>
-    <h1>New Author</h1>
+    <h1>New {{ obj_type }} </h1>
     <p>{% print(obj) %}</p>
-    <a href="/"><button>Back to Home</button></a>
-    <a href="/add_author"><button>Add</button></a>
+    <a href="/"><button>Back Home</button></a>
+    <a href="/add_author"><button>Add new Author</button></a>
+    <a href="/add_book"><button>Add new Book</button></a>
 </body>
 </html>

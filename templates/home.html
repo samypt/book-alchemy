@@ -4,13 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="static/index.css">
+
   </head>
   <body>
 
-    {% for book in books %}
-    <div> <h3>{{ book.title }}</h3>
-    </div>
-    {% endfor %}
+<div class="form-container">
+  <form class="inline" action="/search" method="POST">
+    <label for="key">Search for:</label>
+    <input type="text" id="key" name="key">
+    <input type="submit" value="Search">
+  </form>
 
+  <form class="inline" action="/" method="POST">
+    <label for="sorting">Sort by:</label>
+    <select name="sorting" id="sorting" onchange="this.form.submit()">
+      <option value="title" {{ 'selected' if order == 'title' else '' }}>Title</option>
+      <option value="publication_year" {{ 'selected' if order == 'publication_year' else '' }}>Year</option>
+      <option value="author" {{ 'selected' if order == 'author' else '' }}>Author</option>
+    </select>
+  </form>
+</div>
+
+
+{% if not books %}
+
+        <h1>Nothing found or DB isn't exist</h1>
+
+{% endif %}
+
+{% for book in books %}
+    <div>
+        <h3>{{ book.title }} written by {{ book.author.name }}</h3>
+    </div>
+{% endfor %}
+
+    <a href="/add_author"><button>Add Author</button></a>
+    <a href="/add_book"><button>Add Book</button></a>
   </body>
 </html>

@@ -4,12 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="static/style.css">
   </head>
   <body>
 
-  <form action="/add_author" method="POST">
-  <!-- Add the form here -->
-  </form>
+  <form action="/add_book" method="POST">
 
+    <label for="title">Book Title:</label>
+    <input type="text" id="title" name="title" required>
+
+    <br><br>
+
+    <label for="publication_year">Publication Year:</label>
+    <input type="date" id="publication_year" name="publication_year" required>
+
+    <br><br>
+
+    <label for="isbn">ISBN:</label>
+    <input type="text" id="isbn" name="isbn">
+
+    <br><br>
+
+    <label for="author">Choose Author:</label>
+    <select name="author" id="author" required>
+      {% for author in authors %}
+      <option value="{{ author.id }}">{{ author.name }}</option>
+      {% endfor %}
+    </select>
+
+    <br><br>
+
+    <input type="submit" value="Add Book">
+  </form>
+  <br><br>
+  <a href="/"><button>Back Home</button></a>
   </body>
 </html>
