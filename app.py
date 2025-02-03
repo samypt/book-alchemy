@@ -11,6 +11,7 @@ DB_PATH = os.path.join(MAIN_FOLDER_PATH, DB_PATH, DB_NAME)
 
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Required for flashing messages
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_PATH}"
 db.init_app(app)
 
@@ -64,6 +65,12 @@ def add_book():
 
     authors = get_authors_from_db()
     return render_template('add_book.html', authors = authors)
+
+
+@app.route('/book/<int:book_id>/delete', methods=['POST'])
+def delete_book(book_id):
+    delete_book_by_id(book_id)
+    return redirect('/')
 
 
 def add_author_to_db():
@@ -144,14 +151,22 @@ def get_books_from_db(order='title'):
 def get_books_by_title(title):
     if title:
         try:
-            books = Book.query.filter(Book.title.like(f"%{title}%")).all()
-            print(books)
-            return books
+            return Book.query.filter(Book.title.like(f"%{title}%")).all()
         except Exception as e:
             print(f"Error: {e}")
             return None
 
 
+def delete_book_by_id(book_id):
+    try:
+        book = Book.query.get(book_id)
+        db.session.delete(book)
+        db.session.commit()
+        flash('Book successfully deleted!', 'success')
+        print('A book has been successfully deleted from the database')
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
 
 
 if __name__ == '__main__':

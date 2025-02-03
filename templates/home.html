@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="static/index.css">
-
+    <script>
+        // Function to show alert if a success message exists
+        window.onload = function() {
+            var message = '{{ get_flashed_messages()[0] }}';  // Flask flashes messages
+            if (message) {
+                alert(message);  // Show the alert with the message
+            }
+        };
+    </script>
   </head>
   <body>
 
@@ -27,17 +35,21 @@
 </div>
 
 
-{% if not books %}
-
+    {% if not books %}
         <h1>Nothing found or DB isn't exist</h1>
+    {% endif %}
 
-{% endif %}
+    {% for book in books %}
+    <div class="book-item">
+        <h3 class="book-title">{{ book.title }} written by {{ book.author.name }}</h3>
+        <form action="/book/{{ book.id }}/delete" method="POST" style="margin: 0;">
+        <button type="submit" class="delete-button">Delete</button>
+    </form>
+</div>
+    {% endfor %}
 
-{% for book in books %}
-    <div>
-        <h3>{{ book.title }} written by {{ book.author.name }}</h3>
-    </div>
-{% endfor %}
+
+
 
     <a href="/add_author"><button>Add Author</button></a>
     <a href="/add_book"><button>Add Book</button></a>
